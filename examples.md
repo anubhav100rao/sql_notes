@@ -138,6 +138,37 @@ FROM employees
 WHERE hire_date >= DATEADD(year, -1, GETDATE());
 ```
 
+### Earlier filter
+
+```sql
+To speed up the query, you can pre-filter names with “a” in them:
+
+with limited_first_names as (
+ select
+   *
+ from
+   first_names
+ where
+   name ilike '%a%'
+)
+, limited_last_names as (
+  select
+    *
+  from
+    last_names
+  where
+     name ilike '%a%'
+)
+select
+ count(*)
+from
+ limited_first_names
+join
+ limited_last_names
+on
+ limited_last_names.id = limited_first_names.id
+```
+
 ### Tips for SQL Interviews
 
 1. **Explain Your Thought Process**: Clearly articulate your reasoning while solving queries.
